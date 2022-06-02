@@ -31,12 +31,13 @@ var generateCmd = &cobra.Command{
 			licenseText = s.Replace(licenseText, "[ch]", name, -1)
 			if makeFile {
 				if !util.DoesFileExist("LICENSE") {
-					fmt.Println("Create License Logic")
+					util.WriteFile("LICENSE", licenseText)
 				} else {
 					fmt.Println("File already exists!")
 				}
+			} else {
+				fmt.Println(licenseText)
 			}
-			fmt.Println(licenseText)
 		} else {
 			fmt.Println("License not found!")
 		}
