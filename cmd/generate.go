@@ -24,11 +24,14 @@ var generateCmd = &cobra.Command{
 		year, _ := cmd.Flags().GetInt("year")
 		name, _ := cmd.Flags().GetString("name")
 		makeFile, _ := cmd.Flags().GetBool("output")
+		program, _ := cmd.Flags().GetString("program")
 
 		if util.StringInSlice(license, util.GetLicenses()) {
 			licenseText := util.GetLicense(license)
 			licenseText = s.Replace(licenseText, "[y]", strconv.Itoa(year), -1)
 			licenseText = s.Replace(licenseText, "[ch]", name, -1)
+			licenseText = s.Replace(licenseText, "[p]", program, -1)
+
 			if makeFile {
 				if !util.DoesFileExist("LICENSE") {
 					util.WriteFile("LICENSE", licenseText)
@@ -42,7 +45,7 @@ var generateCmd = &cobra.Command{
 			fmt.Println("License not found!")
 		}
 
-		fmt.Println(util.GetLicense("waffle"))
+		// fmt.Println(util.GetLicense("waffle"))
 		// fmt.Println(cmd.Flags().GetBool("output"))
 	},
 }
@@ -65,4 +68,6 @@ func init() {
 	generateCmd.Flags().StringP("license", "l", "mit", "Decides which license your using")
 	generateCmd.Flags().IntP("year", "y", year, "Decides what year to insert into the license")
 	generateCmd.Flags().StringP("name", "n", "Person", "Decides what name to insert into the license")
+	generateCmd.Flags().StringP("program", "p", "A Program", "Decides a program name required in certain licenses")
+
 }
